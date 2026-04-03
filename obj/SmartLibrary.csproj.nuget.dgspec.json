@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\LENOVO\\OneDrive - EHTP\\S4\\.NET\\Mini_Projet1\\SmartLibrary\\SmartLibrary.csproj": {}
+    "C:\\mini_projet\\SmartLibrary\\SmartLibrary.csproj": {}
   },
   "projects": {
-    "C:\\Users\\LENOVO\\OneDrive - EHTP\\S4\\.NET\\Mini_Projet1\\SmartLibrary\\SmartLibrary.csproj": {
+    "C:\\mini_projet\\SmartLibrary\\SmartLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LENOVO\\OneDrive - EHTP\\S4\\.NET\\Mini_Projet1\\SmartLibrary\\SmartLibrary.csproj",
+        "projectUniqueName": "C:\\mini_projet\\SmartLibrary\\SmartLibrary.csproj",
         "projectName": "SmartLibrary",
-        "projectPath": "C:\\Users\\LENOVO\\OneDrive - EHTP\\S4\\.NET\\Mini_Projet1\\SmartLibrary\\SmartLibrary.csproj",
+        "projectPath": "C:\\mini_projet\\SmartLibrary\\SmartLibrary.csproj",
         "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LENOVO\\OneDrive - EHTP\\S4\\.NET\\Mini_Projet1\\SmartLibrary\\obj\\",
+        "outputPath": "C:\\mini_projet\\SmartLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config"
