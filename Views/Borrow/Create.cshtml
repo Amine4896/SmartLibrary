@@ -1,24 +1,29 @@
-<h2>Borrow Books</h2>
+<div class="container mt-4">
+    <div class="card p-4 shadow">
+        <h3 class="mb-3">Borrow Books</h3>
 
-<form asp-action="Create" method="post">
+        <form asp-action="Create" method="post">
 
-    <div>
-        <label>Borrower Name</label>
-        <input name="borrowerName" class="form-control" />
-    </div>
-
-    <div>
-        <label>Select Books</label>
-
-        @foreach (var book in ViewBag.Books)
-        {
-            <div>
-                <input type="checkbox" name="bookIds" value="@book.Id" />
-                @book.Title (Stock: @book.StockQuantity)
+            <div class="mb-3">
+                <label class="form-label">Borrower Name</label>
+                <input name="borrowerName" class="form-control" required />
             </div>
-        }
+
+            <div class="mb-3">
+                <label class="form-label">Select Books</label>
+
+                @foreach (var book in ViewBag.Books)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="bookIds" value="@book.Id" />
+                        <label class="form-check-label">
+                            @book.Title (Stock: @book.StockQuantity)
+                        </label>
+                    </div>
+                }
+            </div>
+
+            <button type="submit" class="btn btn-success">Confirm Borrow</button>
+        </form>
     </div>
-
-    <button type="submit">Borrow</button>
-
-</form>
+</div>
