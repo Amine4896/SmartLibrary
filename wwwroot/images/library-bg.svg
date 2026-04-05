@@ -1,0 +1,188 @@
+<svg width="100%" viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#1a1008"/>
+    <stop offset="100%" stop-color="#2d1f0e"/>
+  </linearGradient>
+  <linearGradient id="floorGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#3d2b14"/>
+    <stop offset="100%" stop-color="#2a1d0c"/>
+  </linearGradient>
+  <linearGradient id="lampGlow" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#f5c842" stop-opacity="0.55"/>
+    <stop offset="100%" stop-color="#f5c842" stop-opacity="0"/>
+  </linearGradient>
+  <linearGradient id="windowGrad" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#4a7fa8"/>
+    <stop offset="100%" stop-color="#1e3d5c"/>
+  </linearGradient>
+</defs>
+
+<!-- Wall -->
+<rect x="0" y="0" width="680" height="380" fill="url(#wallGrad)"/>
+<line x1="0" y1="120" x2="680" y2="120" stroke="#241508" stroke-width="0.5" opacity="0.4"/>
+<line x1="0" y1="240" x2="680" y2="240" stroke="#241508" stroke-width="0.5" opacity="0.4"/>
+
+<!-- Floor -->
+<rect x="0" y="340" width="680" height="80" fill="url(#floorGrad)"/>
+<line x1="0" y1="358" x2="680" y2="358" stroke="#261508" stroke-width="0.8" opacity="0.5"/>
+<line x1="0" y1="376" x2="680" y2="376" stroke="#261508" stroke-width="0.8" opacity="0.5"/>
+<line x1="130" y1="340" x2="130" y2="420" stroke="#261508" stroke-width="0.5" opacity="0.4"/>
+<line x1="290" y1="340" x2="290" y2="420" stroke="#261508" stroke-width="0.5" opacity="0.4"/>
+<line x1="450" y1="340" x2="450" y2="420" stroke="#261508" stroke-width="0.5" opacity="0.4"/>
+<line x1="610" y1="340" x2="610" y2="420" stroke="#261508" stroke-width="0.5" opacity="0.4"/>
+
+<!-- Window -->
+<rect x="480" y="40" width="140" height="190" rx="4" fill="url(#windowGrad)" opacity="0.85"/>
+<rect x="480" y="40" width="140" height="190" rx="4" fill="none" stroke="#5d3a15" stroke-width="5"/>
+<line x1="550" y1="40" x2="550" y2="230" stroke="#5d3a15" stroke-width="3"/>
+<line x1="480" y1="132" x2="620" y2="132" stroke="#5d3a15" stroke-width="3"/>
+<circle cx="540" cy="88" r="22" fill="#d4e8ff" opacity="0.9"/>
+<circle cx="552" cy="82" r="16" fill="#4a7fa8" opacity="0.7"/>
+<circle cx="495" cy="60" r="1.5" fill="#fff" opacity="0.8"/>
+<circle cx="510" cy="50" r="1" fill="#fff" opacity="0.7"/>
+<circle cx="590" cy="55" r="1.5" fill="#fff" opacity="0.8"/>
+<circle cx="602" cy="72" r="1" fill="#fff" opacity="0.6"/>
+<circle cx="578" cy="48" r="1.2" fill="#fff" opacity="0.7"/>
+<ellipse cx="560" cy="355" rx="55" ry="12" fill="#c5dfff" opacity="0.08"/>
+
+<!-- Lamp left -->
+<rect x="108" y="0" width="4" height="28" fill="#8a6030"/>
+<ellipse cx="110" cy="28" rx="18" ry="7" fill="#c8902a"/>
+<ellipse cx="110" cy="25" rx="12" ry="5" fill="#f5dc80"/>
+<polygon points="86,28 134,28 155,130 65,130" fill="url(#lampGlow)" opacity="0.5"/>
+<ellipse cx="110" cy="130" rx="55" ry="12" fill="#f5c842" opacity="0.07"/>
+
+<!-- Lamp right -->
+<rect x="352" y="0" width="4" height="28" fill="#8a6030"/>
+<ellipse cx="354" cy="28" rx="18" ry="7" fill="#c8902a"/>
+<ellipse cx="354" cy="25" rx="12" ry="5" fill="#f5dc80"/>
+<polygon points="330,28 378,28 400,140 308,140" fill="url(#lampGlow)" opacity="0.45"/>
+<ellipse cx="354" cy="140" rx="55" ry="12" fill="#f5c842" opacity="0.06"/>
+
+<!-- LEFT BOOKSHELF -->
+<rect x="20" y="45" width="175" height="300" rx="3" fill="#2a1a08"/>
+<rect x="20" y="45" width="10" height="300" fill="#4a2e10"/>
+<rect x="185" y="45" width="10" height="300" fill="#3a2408"/>
+<rect x="20" y="45" width="175" height="8" fill="#5a3618"/>
+<rect x="20" y="128" width="175" height="8" fill="#5a3618"/>
+
+<!-- Shelf 1 books -->
+<rect x="28" y="86" width="14" height="42" rx="1" fill="#8B1a1a"/>
+<rect x="43" y="89" width="18" height="39" rx="1" fill="#1a4a8b"/>
+<rect x="62" y="92" width="12" height="36" rx="1" fill="#2d7a2d"/>
+<rect x="73" y="92" width="5" height="36" rx="1" fill="#c8a02a"/>
+<rect x="79" y="86" width="16" height="42" rx="1" fill="#7a3a8b"/>
+<rect x="96" y="82" width="13" height="46" rx="1" fill="#c8601a"/>
+<rect x="110" y="88" width="15" height="40" rx="1" fill="#4a1a1a"/>
+<rect x="124" y="88" width="4" height="40" rx="1" fill="#8B8020"/>
+<rect x="129" y="96" width="10" height="32" rx="1" fill="#1a6a5a"/>
+<rect x="140" y="86" width="16" height="42" rx="1" fill="#5a1a4a"/>
+<rect x="157" y="86" width="11" height="42" rx="1" fill="#c83a1a"/>
+
+<!-- Shelf 2 -->
+<rect x="20" y="212" width="175" height="8" fill="#5a3618"/>
+<rect x="28" y="140" width="20" height="72" rx="1" fill="#1a3a6a"/>
+<rect x="49" y="148" width="14" height="64" rx="1" fill="#8b4a1a"/>
+<rect x="64" y="144" width="11" height="68" rx="1" fill="#3a6a1a"/>
+<rect x="76" y="150" width="17" height="62" rx="1" fill="#6a1a3a"/>
+<rect x="94" y="140" width="13" height="72" rx="1" fill="#1a5a5a"/>
+<rect x="108" y="146" width="15" height="66" rx="1" fill="#8b8b1a"/>
+<rect x="124" y="144" width="12" height="68" rx="1" fill="#4a1a8b"/>
+<rect x="137" y="150" width="10" height="62" rx="1" fill="#c8501a"/>
+<rect x="148" y="140" width="14" height="72" rx="1" fill="#1a6a2a"/>
+<rect x="163" y="148" width="15" height="64" rx="1" fill="#5a3a1a"/>
+
+<!-- Shelf 3 -->
+<rect x="20" y="296" width="175" height="8" fill="#5a3618"/>
+<rect x="28" y="220" width="16" height="76" rx="1" fill="#8b2a1a"/>
+<rect x="45" y="228" width="20" height="68" rx="1" fill="#1a4a8b"/>
+<rect x="66" y="220" width="13" height="76" rx="1" fill="#3a8b3a"/>
+<rect x="80" y="226" width="18" height="70" rx="1" fill="#6a1a6a"/>
+<rect x="99" y="220" width="15" height="76" rx="1" fill="#c87a1a"/>
+<rect x="115" y="228" width="11" height="68" rx="1" fill="#1a6a6a"/>
+<rect x="127" y="220" width="14" height="76" rx="1" fill="#4a4a1a"/>
+<rect x="142" y="226" width="16" height="70" rx="1" fill="#8b1a4a"/>
+<rect x="159" y="220" width="14" height="76" rx="1" fill="#1a3a6a"/>
+
+<!-- Shelf bottom decor -->
+<rect x="35" y="292" width="22" height="12" rx="2" fill="#8b6030"/>
+<rect x="62" y="288" width="14" height="16" rx="2" fill="#c8a050"/>
+<circle cx="90" cy="298" r="7" fill="#1a4a8b" opacity="0.8"/>
+<rect x="102" y="290" width="12" height="14" rx="2" fill="#6a3a1a"/>
+<rect x="118" y="294" width="28" height="10" rx="2" fill="#3a6a3a"/>
+<circle cx="160" cy="296" r="8" fill="#8b3a1a" opacity="0.9"/>
+<rect x="25" y="342" width="10" height="8" rx="2" fill="#3a2408"/>
+<rect x="180" y="342" width="10" height="8" rx="2" fill="#3a2408"/>
+
+<!-- DESK -->
+<rect x="225" y="295" width="210" height="50" rx="4" fill="#5a3618"/>
+<rect x="225" y="295" width="210" height="8" rx="3" fill="#7a4a20"/>
+<rect x="238" y="345" width="12" height="35" rx="2" fill="#4a2c10"/>
+<rect x="398" y="345" width="12" height="35" rx="2" fill="#4a2c10"/>
+
+<!-- Desk lamp -->
+<rect x="380" y="240" width="4" height="55" fill="#8a7050"/>
+<rect x="356" y="236" width="30" height="8" rx="4" fill="#c8902a"/>
+<ellipse cx="371" cy="236" rx="16" ry="6" fill="#f5dc80"/>
+<ellipse cx="371" cy="280" rx="40" ry="18" fill="#f5c842" opacity="0.12"/>
+
+<!-- Open book on desk -->
+<rect x="260" y="278" width="80" height="17" rx="2" fill="#e8d8b0"/>
+<line x1="300" y1="278" x2="300" y2="295" stroke="#c8b890" stroke-width="1"/>
+<line x1="265" y1="283" x2="295" y2="283" stroke="#aaa080" stroke-width="0.8" opacity="0.6"/>
+<line x1="265" y1="287" x2="295" y2="287" stroke="#aaa080" stroke-width="0.8" opacity="0.6"/>
+<line x1="265" y1="291" x2="295" y2="291" stroke="#aaa080" stroke-width="0.8" opacity="0.6"/>
+<line x1="305" y1="283" x2="335" y2="283" stroke="#aaa080" stroke-width="0.8" opacity="0.6"/>
+<line x1="305" y1="287" x2="335" y2="287" stroke="#aaa080" stroke-width="0.8" opacity="0.6"/>
+<line x1="305" y1="291" x2="335" y2="291" stroke="#aaa080" stroke-width="0.8" opacity="0.6"/>
+
+<!-- Coffee cup -->
+<rect x="348" y="283" width="18" height="14" rx="3" fill="#f5f0e8"/>
+<rect x="366" y="287" width="5" height="6" rx="2" fill="none" stroke="#c8a878" stroke-width="1.5"/>
+<ellipse cx="357" cy="283" rx="9" ry="3" fill="#3a1f0a"/>
+
+<!-- RIGHT SHELF -->
+<rect x="485" y="245" width="165" height="100" rx="3" fill="#2a1a08"/>
+<rect x="485" y="245" width="8" height="100" fill="#4a2e10"/>
+<rect x="642" y="245" width="8" height="100" fill="#3a2408"/>
+<rect x="485" y="245" width="165" height="7" fill="#5a3618"/>
+<rect x="485" y="312" width="165" height="7" fill="#5a3618"/>
+<rect x="492" y="252" width="15" height="60" rx="1" fill="#8b2a1a"/>
+<rect x="508" y="256" width="18" height="56" rx="1" fill="#1a4a6a"/>
+<rect x="527" y="252" width="12" height="60" rx="1" fill="#4a8b1a"/>
+<rect x="540" y="256" width="16" height="56" rx="1" fill="#6a1a6a"/>
+<rect x="557" y="252" width="13" height="60" rx="1" fill="#c87a1a"/>
+<rect x="571" y="256" width="14" height="56" rx="1" fill="#1a5a8b"/>
+<rect x="586" y="252" width="11" height="60" rx="1" fill="#8b6a1a"/>
+<rect x="598" y="256" width="16" height="56" rx="1" fill="#3a1a8b"/>
+<rect x="615" y="252" width="14" height="60" rx="1" fill="#8b1a3a"/>
+<rect x="630" y="256" width="12" height="56" rx="1" fill="#1a6a4a"/>
+<rect x="492" y="319" width="18" height="26" rx="1" fill="#4a8b4a"/>
+<rect x="511" y="319" width="14" height="26" rx="1" fill="#8b4a1a"/>
+<rect x="526" y="319" width="12" height="26" rx="1" fill="#1a4a8b"/>
+<rect x="539" y="319" width="16" height="26" rx="1" fill="#6a6a1a"/>
+<rect x="556" y="319" width="13" height="26" rx="1" fill="#8b1a1a"/>
+<rect x="570" y="319" width="15" height="26" rx="1" fill="#1a6a6a"/>
+<rect x="586" y="319" width="11" height="26" rx="1" fill="#4a1a6a"/>
+<rect x="598" y="319" width="14" height="26" rx="1" fill="#c8501a"/>
+<rect x="613" y="319" width="16" height="26" rx="1" fill="#1a3a6a"/>
+<rect x="630" y="319" width="12" height="26" rx="1" fill="#5a8b1a"/>
+
+<!-- Armchair -->
+<rect x="225" y="308" width="75" height="38" rx="8" fill="#4a2c14"/>
+<rect x="225" y="308" width="75" height="10" rx="5" fill="#5a3618"/>
+<rect x="225" y="300" width="16" height="50" rx="5" fill="#5a3618"/>
+<rect x="284" y="300" width="16" height="50" rx="5" fill="#5a3618"/>
+<rect x="233" y="344" width="8" height="16" rx="2" fill="#3a2010"/>
+<rect x="281" y="344" width="8" height="16" rx="2" fill="#3a2010"/>
+
+<!-- Rug -->
+<ellipse cx="330" cy="355" rx="115" ry="20" fill="#6a2a1a" opacity="0.35"/>
+<ellipse cx="330" cy="355" rx="100" ry="16" fill="none" stroke="#8b3a2a" stroke-width="1" opacity="0.4"/>
+
+<!-- Vignette edges -->
+<rect x="0" y="0" width="50" height="420" fill="#0a0602" opacity="0.4"/>
+<rect x="630" y="0" width="50" height="420" fill="#0a0602" opacity="0.4"/>
+<rect x="0" y="370" width="680" height="50" fill="#0a0602" opacity="0.5"/>
+</svg>
