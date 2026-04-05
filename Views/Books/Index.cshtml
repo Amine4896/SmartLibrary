@@ -1,60 +1,77 @@
-@model IEnumerable<SmartLibrary.Models.Book>
+@model List<SmartLibrary.Models.Book>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Livres";
 }
 
-<h1>Index</h1>
+<div class="page-header mt-3">
+    <div>
+        <h1>Livres</h1>
+        <p>@Model.Count livre(s) dans la bibliothèque</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">+ Nouveau livre</a>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StockQuantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>Category</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StockQuantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        @if (Model.Count == 0)
+        {
+            <div class="text-center py-5 text-muted">
+                <p style="font-size:2rem;">📚</p>
+                <p>Aucun livre enregistré pour le moment.</p>
+                <a asp-action="Create" class="btn btn-primary mt-2">Ajouter le premier livre</a>
+            </div>
+        }
+        else
+        {
+            <table class="table-modern">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Auteur</th>
+                        <th>Catégorie</th>
+                        <th>Prix</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var book in Model)
+                    {
+                        <tr>
+                            <td><strong>@book.Title</strong></td>
+                            <td>@book.Author</td>
+                            <td>
+                                @if (book.Category != null)
+                                {
+                                    <span class="badge-available">@book.Category.Name</span>
+                                }
+                                else
+                                {
+                                    <span style="color:#94a3b8;font-size:.8rem;">—</span>
+                                }
+                            </td>
+                            <td>@book.Price.ToString("F2") MAD</td>
+                            <td>
+                                @if (book.StockQuantity > 0)
+                                {
+                                    <span class="badge-available">@book.StockQuantity dispo</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-borrowed">Épuisé</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Edit"    asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary me-1">Modifier</a>
+                                <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary me-1">Détails</a>
+                                <a asp-action="Delete"  asp-route-id="@book.Id" class="btn btn-sm btn-outline-danger">Suppr.</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+

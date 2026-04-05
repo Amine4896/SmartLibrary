@@ -1,8 +1,76 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- ===== HERO BANNER ===== -->
+<div class="lib-hero mb-4">
+    <img src="~/images/library-bg.svg" alt="" class="lib-hero-img" />
+    <div class="lib-hero-overlay">
+        <h1 class="lib-hero-title">SmartLibrary</h1>
+        <p class="lib-hero-sub">Gestion intelligente de votre bibliothèque</p>
+    </div>
+</div>
+
+<!-- ===== PAGE HEADER ===== -->
+<div class="page-header">
+    <div>
+        <h1>Dashboard</h1>
+        <p>Bienvenue — voici l'état de ta bibliothèque</p>
+    </div>
+    <a class="btn btn-primary" asp-controller="Books" asp-action="Create">+ Ajouter un livre</a>
+</div>
+
+<!-- ===== STATS CARDS ===== -->
+<div class="sl-stats">
+    <div class="sl-stat-card">
+        <div class="stat-icon" style="background:#dbeafe; font-size:16px;">📚</div>
+        <div class="stat-value">@ViewBag.TotalBooks</div>
+        <div class="stat-label">Total livres</div>
+    </div>
+    <div class="sl-stat-card">
+        <div class="stat-icon" style="background:#dcfce7; font-size:16px;">✓</div>
+        <div class="stat-value">@ViewBag.AvailableBooks</div>
+        <div class="stat-label">Disponibles</div>
+    </div>
+    <div class="sl-stat-card">
+        <div class="stat-icon" style="background:#fef3c7; font-size:16px;">↗</div>
+        <div class="stat-value">@ViewBag.BorrowedBooks</div>
+        <div class="stat-label">Empruntés</div>
+    </div>
+    <div class="sl-stat-card">
+        <div class="stat-icon" style="background:#ede9fe; font-size:16px;">⊞</div>
+        <div class="stat-value">@ViewBag.TotalCategories</div>
+        <div class="stat-label">Catégories</div>
+    </div>
+</div>
+
+<!-- ===== RECENT BORROWS ===== -->
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center py-3">
+        <span style="font-weight:600; font-size:.95rem;">Emprunts récents</span>
+        <a asp-controller="Borrows" asp-action="Index" class="btn btn-sm btn-outline-secondary">Voir tout</a>
+    </div>
+    <div class="card-body p-0">
+        <table class="table-modern">
+            <thead>
+                <tr>
+                    <th>Livre</th>
+                    <th>Membre</th>
+                    <th>Date retour</th>
+                    <th>Statut</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @* Remplace par ta boucle @foreach sur ton modèle *@
+                <tr>
+                    <td>Exemple livre</td>
+                    <td>Ahmed B.</td>
+                    <td>10 Avr 2026</td>
+                    <td><span class="badge-borrowed">Emprunté</span></td>
+                    <td><a href="#" class="btn btn-sm btn-outline-secondary">Retour</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
