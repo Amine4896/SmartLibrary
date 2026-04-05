@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\mini_projet\\SmartLibrary\\SmartLibrary.csproj": {}
+    "C:\\mini_projet\\SmartLibrary\\SmartLibrary.csproj": {}
   },
   "projects": {
-    "c:\\mini_projet\\SmartLibrary\\SmartLibrary.csproj": {
+    "C:\\mini_projet\\SmartLibrary\\SmartLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\mini_projet\\SmartLibrary\\SmartLibrary.csproj",
+        "projectUniqueName": "C:\\mini_projet\\SmartLibrary\\SmartLibrary.csproj",
         "projectName": "SmartLibrary",
-        "projectPath": "c:\\mini_projet\\SmartLibrary\\SmartLibrary.csproj",
+        "projectPath": "C:\\mini_projet\\SmartLibrary\\SmartLibrary.csproj",
         "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "c:\\mini_projet\\SmartLibrary\\obj\\",
+        "outputPath": "C:\\mini_projet\\SmartLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config"
