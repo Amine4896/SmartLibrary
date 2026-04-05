@@ -1,60 +1,50 @@
-@model IEnumerable<SmartLibrary.Models.Book>
+@{ViewData["Title"] = "Livres";}
 
-@{
-    ViewData["Title"] = "Index";
-}
+<div class="page-header mt-2">
+  <div>
+    <h1>Livres</h1>
+    <p>@Model.Count() livres dans la bibliothèque</p>
+  </div>
+  <a class="btn btn-primary" asp-action="Create">+ Nouveau livre</a>
+</div>
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+<div class="card border-0 shadow-sm">
+  <div class="card-body p-0">
+    <table class="table-modern">
+      <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StockQuantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>Category</th>
-            <th></th>
+          <th>Titre</th>
+          <th>Auteur</th>
+          <th>Catégorie</th>
+          <th>Statut</th>
+          <th>Actions</th>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
+      </thead>
+      <tbody>
+        @foreach (var book in Model)
+        {
+          <tr>
+            <td><strong>@book.Title</strong></td>
+            <td>@book.Author</td>
+            <td>@book.Category?.Name</td>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+              @if (book.IsAvailable)
+              {
+                <span class="badge-available">Disponible</span>
+              }
+              else
+              {
+                <span class="badge-borrowed">Emprunté</span>
+              }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Author)
+              <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary me-1">Modifier</a>
+              <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary me-1">Détails</a>
+              <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-sm btn-outline-danger">Suppr.</a>
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StockQuantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
