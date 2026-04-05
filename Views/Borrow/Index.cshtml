@@ -1,0 +1,28 @@
+@model IEnumerable<SmartLibrary.Models.Borrow>
+
+<h2 class="mt-3">Borrow List</h2>
+
+<table class="table table-bordered mt-3">
+    <thead class="table-dark">
+        <tr>
+            <th>Borrower</th>
+            <th>Date</th>
+            <th>Books</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var borrow in Model)
+        {
+            <tr>
+                <td>@borrow.BorrowerName</td>
+                <td>@borrow.BorrowDate.ToShortDateString()</td>
+                <td>
+                    @foreach (var item in borrow.BorrowItems)
+                    {
+                        <div>• @item.Book.Title</div>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
