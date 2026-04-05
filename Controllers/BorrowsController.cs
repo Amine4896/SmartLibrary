@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SmartLibrary.Data;
 using SmartLibrary.Models;
 
@@ -18,6 +19,15 @@ namespace SmartLibrary.Controllers
             ViewBag.Books = _context.Books.ToList();
             return View();
         }
+        public IActionResult Index()
+{
+    var borrows = _context.Borrows
+        .Include(b => b.BorrowItems)
+        .ThenInclude(bi => bi.Book)
+        .ToList();
+
+    return View(borrows);
+}
 
         [HttpPost]
         public async Task<IActionResult> Create(string borrowerName, List<int> bookIds)
@@ -61,4 +71,5 @@ namespace SmartLibrary.Controllers
             }
         }
     }
+
 }
