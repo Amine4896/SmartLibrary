@@ -1,50 +1,77 @@
-@{ViewData["Title"] = "Livres";}
+@model List<SmartLibrary.Models.Book>
 
-<div class="page-header mt-2">
-  <div>
-    <h1>Livres</h1>
-    <p>@Model.Count() livres dans la bibliothèque</p>
-  </div>
-  <a class="btn btn-primary" asp-action="Create">+ Nouveau livre</a>
+@{
+    ViewData["Title"] = "Livres";
+}
+
+<div class="page-header mt-3">
+    <div>
+        <h1>Livres</h1>
+        <p>@Model.Count livre(s) dans la bibliothèque</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">+ Nouveau livre</a>
 </div>
 
 <div class="card border-0 shadow-sm">
-  <div class="card-body p-0">
-    <table class="table-modern">
-      <thead>
-        <tr>
-          <th>Titre</th>
-          <th>Auteur</th>
-          <th>Catégorie</th>
-          <th>Statut</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach (var book in Model)
+    <div class="card-body p-0">
+        @if (Model.Count == 0)
         {
-          <tr>
-            <td><strong>@book.Title</strong></td>
-            <td>@book.Author</td>
-            <td>@book.Category?.Name</td>
-            <td>
-              @if (book.IsAvailable)
-              {
-                <span class="badge-available">Disponible</span>
-              }
-              else
-              {
-                <span class="badge-borrowed">Emprunté</span>
-              }
-            </td>
-            <td>
-              <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary me-1">Modifier</a>
-              <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary me-1">Détails</a>
-              <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-sm btn-outline-danger">Suppr.</a>
-            </td>
-          </tr>
+            <div class="text-center py-5 text-muted">
+                <p style="font-size:2rem;">📚</p>
+                <p>Aucun livre enregistré pour le moment.</p>
+                <a asp-action="Create" class="btn btn-primary mt-2">Ajouter le premier livre</a>
+            </div>
         }
-      </tbody>
-    </table>
-  </div>
+        else
+        {
+            <table class="table-modern">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Auteur</th>
+                        <th>Catégorie</th>
+                        <th>Prix</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var book in Model)
+                    {
+                        <tr>
+                            <td><strong>@book.Title</strong></td>
+                            <td>@book.Author</td>
+                            <td>
+                                @if (book.Category != null)
+                                {
+                                    <span class="badge-available">@book.Category.Name</span>
+                                }
+                                else
+                                {
+                                    <span style="color:#94a3b8;font-size:.8rem;">—</span>
+                                }
+                            </td>
+                            <td>@book.Price.ToString("F2") MAD</td>
+                            <td>
+                                @if (book.StockQuantity > 0)
+                                {
+                                    <span class="badge-available">@book.StockQuantity dispo</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-borrowed">Épuisé</span>
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Edit"    asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary me-1">Modifier</a>
+                                <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary me-1">Détails</a>
+                                <a asp-action="Delete"  asp-route-id="@book.Id" class="btn btn-sm btn-outline-danger">Suppr.</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
 </div>
+
