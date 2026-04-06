@@ -17,7 +17,7 @@ namespace SmartLibrary.Models
 
         public int CategoryId { get; set; }
         public  Category? Category { get; set; }
-            public string? SearchString { get; set; }
+            
 
     }
    
