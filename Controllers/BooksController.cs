@@ -21,20 +21,22 @@ namespace SmartLibrary.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
-        {
-            var books = await _context.Books
-                .Include(b => b.Category)
-                .AsNoTracking()
-                .ToListAsync();
-            if (!string.IsNullOrEmpty(searchString))
+        public async Task<IActionResult> Index(string searchString)
+{
+    var books = _context.Books
+        .Include(b => b.Category)
+        .AsNoTracking()
+        .AsQueryable();
+
+    if (!string.IsNullOrEmpty(searchString))
     {
-        books = (List<Book>)books.Where(b =>
+        books = books.Where(b =>
             b.Title.Contains(searchString) ||
             b.Author.Contains(searchString));
     }
-            return View(books);
-        }
+
+    return View(await books.ToListAsync());
+}
 
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
