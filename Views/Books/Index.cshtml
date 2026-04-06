@@ -11,7 +11,10 @@
     </div>
     <a class="btn btn-primary" asp-action="Create">+ Nouveau livre</a>
 </div>
-
+<form method="get" asp-action="Index" class="mb-3">
+    <input type="text" name="searchString" placeholder="Search by title or author" class="form-control" />
+    <button type="submit" class="btn btn-primary mt-2">Search</button>
+</form>
 <div class="card border-0 shadow-sm">
     <div class="card-body p-0">
         @if (Model.Count == 0)

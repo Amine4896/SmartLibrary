@@ -13,6 +13,7 @@ namespace SmartLibrary.Controllers
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private string? searchString;
 
         public BooksController(ApplicationDbContext context)
         {
@@ -20,15 +21,22 @@ namespace SmartLibrary.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
-        {
-            var books = await _context.Books
-                .Include(b => b.Category)
-                .AsNoTracking()
-                .ToListAsync();
+        public async Task<IActionResult> Index(string searchString)
+{
+    var books = _context.Books
+        .Include(b => b.Category)
+        .AsNoTracking()
+        .AsQueryable();
 
-            return View(books);
-        }
+    if (!string.IsNullOrEmpty(searchString))
+    {
+        books = books.Where(b =>
+            b.Title.Contains(searchString) ||
+            b.Author.Contains(searchString));
+    }
+
+    return View(await books.ToListAsync());
+}
 
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -144,5 +152,6 @@ namespace SmartLibrary.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        
     }
 }
