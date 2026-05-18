@@ -1,10 +1,15 @@
 pipeline {
     agent any
 
+    environment {
+        DOTNET_ROOT = "/root/.dotnet"
+        PATH = "/root/.dotnet:/root/.dotnet/tools:${env.PATH}"
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                echo 'Pulling source code...'
+                echo 'Checkout...'
                 checkout scm
             }
         }
