@@ -1,24 +1,22 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using SmartLibrary.Models;
 
-namespace SmartLibrary.Controllers;
-
-public class HomeController : Controller
+namespace SmartLibrary.Controllers
 {
-    public IActionResult Index()
+    public class HomeController : Controller
     {
-        return View();
-    }
+        private readonly IConfiguration _configuration;
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        public HomeController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Index()
+        {
+            ViewBag.Message =
+            _configuration["EnvironmentMessage"];
+
+            return View();
+        }
     }
 }
