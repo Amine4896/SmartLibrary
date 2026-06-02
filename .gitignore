@@ -1,0 +1,11 @@
+bin/
+obj/
+publish/
+
+.vs/
+.idea/
+
+*.user
+*.suo
+
+appsettings.Production.json
