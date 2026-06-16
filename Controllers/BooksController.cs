@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,11 +14,35 @@ namespace SmartLibrary.Controllers
     public class BooksController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private string? searchString;
 
         public BooksController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        private async Task LogActivityAsync(string action)
+        {
+            var username = User.Identity?.Name ?? "Inconnu";
+            var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "Visiteur";
+            
+            int? userId = null;
+            var userObj = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            if (userObj != null)
+            {
+                userId = userObj.Id;
+            }
+
+            var log = new ActivityLog
+            {
+                UserId = userId,
+                Username = username,
+                UserRole = role,
+                Action = action,
+                Timestamp = DateTime.Now
+            };
+
+            _context.ActivityLogs.Add(log);
+            await _context.SaveChangesAsync();
         }
 
         // GET: Books
@@ -54,6 +79,7 @@ namespace SmartLibrary.Controllers
         }
 
         // GET: Books/Create
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
@@ -63,27 +89,24 @@ namespace SmartLibrary.Controllers
         // POST: Books/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Create(Book book)
-{
-    if (!ModelState.IsValid)
-    {
-        var errors = ModelState.Values.SelectMany(v => v.Errors);
-        string allErrors = "";
-
-        foreach (var error in errors)
         {
-            allErrors += error.ErrorMessage + "\n";
+            if (!ModelState.IsValid)
+            {
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", book.CategoryId);
+                return View(book);
+            }
+
+            _context.Add(book);
+            await _context.SaveChangesAsync();
+            await LogActivityAsync($"A créé le livre '{book.Title}' (Stock: {book.StockQuantity}, Catégorie ID: {book.CategoryId})");
+            TempData["SuccessMessage"] = $"Le livre '{book.Title}' a été ajouté avec succès !";
+            return RedirectToAction(nameof(Index));
         }
 
-        return Content("ERRORS:\n" + allErrors);
-    }
-
-    _context.Add(book);
-    await _context.SaveChangesAsync();
-    return RedirectToAction(nameof(Index));
-}
-
         // GET: Books/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -98,6 +121,7 @@ namespace SmartLibrary.Controllers
         // POST: Books/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, Book book)
         {
             if (id != book.Id) return NotFound();
@@ -108,6 +132,8 @@ namespace SmartLibrary.Controllers
                 {
                     _context.Update(book);
                     await _context.SaveChangesAsync();
+                    await LogActivityAsync($"A modifié le livre '{book.Title}' (Stock: {book.StockQuantity}, Catégorie ID: {book.CategoryId})");
+                    TempData["SuccessMessage"] = $"Le livre '{book.Title}' a été modifié avec succès !";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -125,6 +151,7 @@ namespace SmartLibrary.Controllers
         }
 
         // GET: Books/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -142,14 +169,19 @@ namespace SmartLibrary.Controllers
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var book = await _context.Books.FindAsync(id);
 
             if (book != null)
+            {
                 _context.Books.Remove(book);
+                await _context.SaveChangesAsync();
+                await LogActivityAsync($"A supprimé le livre '{book.Title}' (Auteur: {book.Author})");
+                TempData["SuccessMessage"] = $"Le livre '{book.Title}' a été supprimé avec succès !";
+            }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         

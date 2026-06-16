@@ -1,35 +1,72 @@
 @model IEnumerable<SmartLibrary.Models.Category>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Catégories";
 }
 
-<h1>Index</h1>
+<div class="page-header mt-3">
+    <div>
+        <h1>Catégories</h1>
+        <p>Gérer les différentes catégories de livres de la bibliothèque</p>
+    </div>
+    @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Manager")))
+    {
+        <a class="btn btn-primary" asp-action="Create">
+            <i class="bi bi-plus-lg"></i> Nouvelle catégorie
+        </a>
+    }
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-modern-wrapper border-0 shadow-none">
+            <table class="table-modern">
+                <thead>
+                    <tr>
+                        <th>Nom de la catégorie</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@item.Name</strong>
+                                </td>
+                                <td class="text-end">
+                                    <div class="d-inline-flex gap-1">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">
+                                                <i class="bi bi-pencil"></i> Modifier
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i> Suppr.
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted small"><i class="bi bi-lock"></i> Réservé Admin</span>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2" class="text-center py-5 text-muted">
+                                <i class="bi bi-tags fs-2 d-block mb-2 text-muted opacity-50"></i>
+                                Aucune catégorie enregistrée.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

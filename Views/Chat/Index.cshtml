@@ -1,24 +1,172 @@
 @model ChatViewModel
 
-<h2>AI Assistant</h2>
+@{
+    ViewData["Title"] = "Assistant IA";
+}
 
-<form asp-action="Ask" method="post">
-
-    <textarea asp-for="Question"
-              class="form-control">
-    </textarea>
-
-    <br />
-
-    <button class="btn btn-primary">
-        Ask AI
-    </button>
-
-</form>
-
-@if (!string.IsNullOrEmpty(Model?.Response))
-{
-    <div class="alert alert-success mt-3">
-        @Model.Response
+<div class="page-header mt-3">
+    <div>
+        <h1>Assistant Intelligent</h1>
+        <p>Posez vos questions à l'intelligence artificielle pour obtenir des conseils de lecture ou connaître l'état de la bibliothèque.</p>
     </div>
+</div>
+
+<div class="chat-container">
+    <!-- Sidebar / Suggestions -->
+    <div class="chat-sidebar">
+        <div class="chat-sidebar-title">
+            <i class="bi bi-patch-question text-primary"></i>
+            <span>Suggestions</span>
+        </div>
+        <div class="suggested-chips">
+            <button class="suggested-chip" onclick="useSuggestion('Quels livres de programmation sont disponibles ?')">
+                <i class="bi bi-code-slash text-primary me-1"></i> Quels livres de programmation sont disponibles ?
+            </button>
+            <button class="suggested-chip" onclick="useSuggestion('Propose-moi une recommandation de livre disponible.')">
+                <i class="bi bi-lightning-charge text-warning me-1"></i> Propose-moi une recommandation de livre.
+            </button>
+            <button class="suggested-chip" onclick="useSuggestion('Quels livres sont actuellement en rupture de stock ?')">
+                <i class="bi bi-x-circle text-danger me-1"></i> Quels livres sont en rupture de stock ?
+            </button>
+            <button class="suggested-chip" onclick="useSuggestion('Donne-moi des conseils pour mieux organiser ma lecture.')">
+                <i class="bi bi-lightbulb text-success me-1"></i> Conseils pour mieux organiser ma lecture.
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Chat Window -->
+    <div class="chat-main">
+        <!-- Messages Area -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-bubble chat-bubble-assistant">
+                Bonjour ! Je suis votre assistant de bibliothèque intelligent. Je peux vous renseigner sur les livres disponibles en temps réel, ou vous aider à choisir votre prochaine lecture. Que souhaitez-vous savoir ?
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="chat-input-area">
+            <form id="chatForm" onsubmit="sendQuestion(event)">
+                @Html.AntiForgeryToken()
+                <div class="chat-input-group">
+                    <textarea id="questionInput" placeholder="Posez votre question ici..." required></textarea>
+                    <button type="submit" class="btn btn-primary" id="sendBtn">
+                        <i class="bi bi-send-fill"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Marked.js CDN to parse markdown inside chat bubbles -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const questionInput = document.getElementById('questionInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatForm = document.getElementById('chatForm');
+
+        // Allow sending with Enter (without Shift+Enter)
+        questionInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                chatForm.requestSubmit();
+            }
+        });
+
+        function appendMessage(sender, content, isError = false) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('chat-bubble');
+            
+            if (isError) {
+                bubble.classList.add('chat-bubble-error');
+            } else if (sender === 'user') {
+                bubble.classList.add('chat-bubble-user');
+            } else {
+                bubble.classList.add('chat-bubble-assistant');
+            }
+            
+            if (sender === 'assistant' && !isError) {
+                // Parse markdown for assistant answers
+                bubble.innerHTML = marked.parse(content);
+            } else {
+                bubble.textContent = content;
+            }
+            
+            chatMessages.appendChild(bubble);
+            scrollToBottom();
+        }
+
+        function appendTypingIndicator() {
+            const indicator = document.createElement('div');
+            indicator.classList.add('typing-indicator');
+            indicator.id = 'typingIndicator';
+            indicator.innerHTML = '<span></span><span></span><span></span>';
+            chatMessages.appendChild(indicator);
+            scrollToBottom();
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function useSuggestion(text) {
+            questionInput.value = text;
+            questionInput.focus();
+            scrollToBottom();
+        }
+
+        async function sendQuestion(event) {
+            event.preventDefault();
+            const question = questionInput.value.trim();
+            if (!question) return;
+
+            // Clear input and disable elements
+            questionInput.value = '';
+            questionInput.disabled = true;
+            sendBtn.disabled = true;
+
+            // Append User Question
+            appendMessage('user', question);
+
+            // Append Typing Indicator
+            appendTypingIndicator();
+
+            try {
+                const response = await fetch('/Chat/AskJson', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    },
+                    body: JSON.stringify({ question: question })
+                });
+
+                removeTypingIndicator();
+
+                if (response.ok) {
+                    const data = await response.json();
+                    appendMessage('assistant', data.response);
+                } else {
+                    appendMessage('assistant', "Erreur : Impossible de joindre l'assistant. Veuillez réessayer plus tard.", true);
+                }
+            } catch (error) {
+                removeTypingIndicator();
+                appendMessage('assistant', "Erreur réseau : Vérifiez votre connexion internet.", true);
+            } finally {
+                questionInput.disabled = false;
+                sendBtn.disabled = false;
+                questionInput.focus();
+            }
+        }
+    </script>
 }

@@ -1,29 +1,96 @@
-<div class="container mt-4">
-    <div class="card p-4 shadow">
-        <h3 class="mb-3">Borrow Books</h3>
+@{
+    ViewData["Title"] = "Enregistrer un Emprunt";
+}
 
-        <form asp-action="Create" method="post">
+<div class="page-header mt-3">
+    <div>
+        <h1>Enregistrer un Emprunt</h1>
+        <p>Créer une nouvelle fiche d'emprunt pour un ou plusieurs livres</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Retour à la liste
+    </a>
+</div>
 
-            <div class="mb-3">
-                <label class="form-label">Borrower Name</label>
-                <input name="borrowerName" class="form-control" required />
+<div class="form-card">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 shadow-sm rounded-3 d-flex align-items-center mb-4" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2 fs-5 text-danger"></i>
+            <div>Remplissez correctement tous les champs obligatoires.</div>
+        </div>
+
+        @if (User.IsInRole("Client"))
+        {
+            <div class="mb-4">
+                <label class="form-label">Nom de l'Emprunteur</label>
+                <input class="form-control" value="@User.Identity?.Name" disabled />
+                <input type="hidden" name="borrowerName" value="@User.Identity?.Name" />
             </div>
+        }
+        else
+        {
+            <div class="mb-4">
+                <label class="form-label">Nom de l'Emprunteur</label>
+                <input name="borrowerName" class="form-control" placeholder="Ex: Jean Dupont" required />
+                <span class="text-muted small">Indiquez le nom complet du membre de la bibliothèque.</span>
+            </div>
+        }
 
-            <div class="mb-3">
-                <label class="form-label">Select Books</label>
+        <div class="mb-4">
+            <label class="form-label d-block">Sélectionner les livres à emprunter</label>
+            <span class="text-muted small d-block mb-3">Sélectionnez un ou plusieurs livres ci-dessous (seuls les livres en stock sont actifs) :</span>
 
-                @foreach (var book in ViewBag.Books)
+            <div class="border rounded-3 p-3 bg-light" style="max-height: 250px; overflow-y: auto;">
+                @if (ViewBag.Books != null)
                 {
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="bookIds" value="@book.Id" />
-                        <label class="form-check-label">
-                            @book.Title (Stock: @book.StockQuantity)
-                        </label>
-                    </div>
+                    var booksList = (List<SmartLibrary.Models.Book>)ViewBag.Books;
+                    if (booksList.Any())
+                    {
+                        @foreach (var book in booksList)
+                        {
+                            var hasStock = book.StockQuantity > 0;
+                            <div class="form-check d-flex align-items-center justify-content-between p-2 rounded-2 border-bottom @(hasStock ? "hover-light" : "opacity-50 bg-light-subtle")">
+                                <div class="d-flex align-items-center">
+                                    <input class="form-check-input me-3" type="checkbox" name="bookIds" value="@book.Id" id="book_@book.Id" @(hasStock ? "" : "disabled") />
+                                    <label class="form-check-label @(hasStock ? "fw-medium" : "text-muted text-decoration-line-through")" for="book_@book.Id">
+                                        @book.Title <span class="text-muted font-normal text-xs">de @book.Author</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    @if (hasStock)
+                                    {
+                                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 fs-xs">
+                                            @book.StockQuantity en stock
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-2 py-1 fs-xs">
+                                            Épuisé
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-4 text-muted">
+                            <i class="bi bi-journal-x fs-2 d-block mb-2"></i>
+                            Aucun livre n'est enregistré dans la base de données.
+                        </div>
+                    }
                 }
             </div>
+        </div>
 
-            <button type="submit" class="btn btn-success">Confirm Borrow</button>
-        </form>
-    </div>
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-lg"></i> Confirmer l'emprunt
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Annuler</a>
+        </div>
+    </form>
 </div>

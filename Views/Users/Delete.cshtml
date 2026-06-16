@@ -1,23 +1,23 @@
-@model SmartLibrary.Models.Category
+@model SmartLibrary.Models.User
 
 @{
-    ViewData["Title"] = "Supprimer la Catégorie";
+    ViewData["Title"] = "Supprimer le Manager";
 }
 
 <div class="page-header mt-3">
     <div>
-        <h1>Supprimer la Catégorie</h1>
-        <p>Êtes-vous sûr de vouloir retirer cette catégorie de la bibliothèque ?</p>
+        <h1>Supprimer le compte Manager</h1>
+        <p>Êtes-vous sûr de vouloir révoquer l'accès pour ce Manager ?</p>
     </div>
     <a asp-action="Index" class="btn btn-outline-secondary">
         <i class="bi bi-arrow-left"></i> Retour à la liste
     </a>
 </div>
 
-<div class="alert alert-warning border-0 shadow-sm rounded-3 d-flex align-items-center mb-4" role="alert" style="max-width: 650px;">
-    <i class="bi bi-exclamation-triangle-fill me-3 fs-3 text-warning"></i>
+<div class="alert alert-danger border-0 shadow-sm rounded-3 d-flex align-items-center mb-4" role="alert" style="max-width: 650px;">
+    <i class="bi bi-exclamation-octagon-fill me-3 fs-3 text-danger"></i>
     <div>
-        <strong>Attention !</strong> Les livres liés à cette catégorie ne seront pas supprimés, mais n'auront plus de catégorie associée.
+        <strong>Attention !</strong> Cette action retirera définitivement les droits d'administration de ce Manager. Il ne pourra plus créer de livres ou de catégories.
     </div>
 </div>
 
@@ -25,11 +25,11 @@
     <div class="card-body p-4">
         <div class="d-flex align-items-start gap-3 border-bottom pb-4 mb-4">
             <div class="bg-danger bg-opacity-10 text-danger rounded-3 p-3 d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
-                <i class="bi bi-tag fs-2"></i>
+                <i class="bi bi-person-x fs-2"></i>
             </div>
             <div>
-                <h3 class="fw-bold text-dark mb-1">@Model.Name</h3>
-                <p class="text-muted mb-0">Identifiant : <strong class="text-dark">#@Model.Id</strong></p>
+                <h3 class="fw-bold text-dark mb-1">@Model.Username</h3>
+                <p class="text-muted mb-0">Rôle : <strong class="text-dark">@Model.Role</strong></p>
             </div>
         </div>
 
@@ -38,7 +38,7 @@
             <input type="hidden" asp-for="Id" />
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-danger">
-                    <i class="bi bi-trash"></i> Confirmer la suppression
+                    <i class="bi bi-person-dash"></i> Supprimer définitivement
                 </button>
                 <a asp-action="Index" class="btn btn-outline-secondary">Annuler</a>
             </div>

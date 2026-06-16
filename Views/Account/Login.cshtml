@@ -1,0 +1,72 @@
+@{
+    ViewData["Title"] = "Connexion";
+}
+
+<div class="d-flex justify-content-center align-items-center mt-5">
+    <div class="form-card w-100" style="max-width: 450px;">
+        <div class="text-center mb-4">
+            <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle mb-3" style="width: 64px; height: 64px;">
+                <i class="bi bi-shield-lock fs-1"></i>
+            </div>
+            <h2 class="fw-bold text-dark mb-1">Connexion</h2>
+            <p class="text-muted small">Accédez à l'espace d'administration SmartLibrary</p>
+        </div>
+
+        <form asp-action="Login" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 shadow-sm rounded-3 small p-2 mb-3" role="alert"></div>
+
+            <div class="mb-3">
+                <label class="form-label" for="username">Nom d'utilisateur</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-person"></i></span>
+                    <input type="text" name="username" id="username" class="form-control border-start-0" placeholder="Ex: admin" required autofocus />
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label" for="password">Mot de passe</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-lock"></i></span>
+                    <input type="password" name="password" id="password" class="form-control border-start-0" placeholder="••••••••" required />
+                </div>
+            </div>
+
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-box-arrow-in-right"></i> Se connecter
+                </button>
+            </div>
+            
+            <div class="text-center text-muted small border-top pt-3">
+                <span>Vous n'avez pas de compte ?</span>
+                <a asp-action="Register" class="text-primary fw-medium ms-1">Créer un compte</a>
+            </div>
+        </form>
+
+        <!-- Comptes de démo -->
+        <div class="card bg-light border-0 rounded-3 mt-4">
+            <div class="card-body p-3">
+                <span class="fw-bold text-dark d-block mb-2 text-center" style="font-size: 0.85rem;">
+                    <i class="bi bi-info-circle text-primary me-1"></i> Comptes de démonstration
+                </span>
+                <div class="d-flex flex-column gap-2 small">
+                    <div class="d-flex justify-content-between align-items-center bg-white px-2.5 py-1.5 rounded border border-light-subtle">
+                        <span><strong class="text-danger">Admin :</strong> <code>admin</code></span>
+                        <span>Pass: <code>admin123</code></span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center bg-white px-2.5 py-1.5 rounded border border-light-subtle">
+                        <span><strong class="text-info">Manager :</strong> <code>manager</code></span>
+                        <span>Pass: <code>manager123</code></span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center bg-white px-2.5 py-1.5 rounded border border-light-subtle">
+                        <span><strong class="text-success">Client (Amine) :</strong> <code>amine</code></span>
+                        <span>Pass: <code>amine123</code></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

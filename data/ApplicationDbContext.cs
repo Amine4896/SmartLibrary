@@ -14,5 +14,7 @@ namespace SmartLibrary.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Borrow> Borrows { get; set; }
         public DbSet<BorrowItem> BorrowItems { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<ActivityLog> ActivityLogs { get; set; }
     }
 }

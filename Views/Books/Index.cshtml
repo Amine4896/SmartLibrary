@@ -7,74 +7,119 @@
 <div class="page-header mt-3">
     <div>
         <h1>Livres</h1>
-        <p>@Model.Count livre(s) dans la bibliothèque</p>
+        <p>@Model.Count livre(s) référencé(s) dans la bibliothèque</p>
     </div>
-    <a class="btn btn-primary" asp-action="Create">+ Nouveau livre</a>
+    @if (User.Identity != null && User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("Manager")))
+    {
+        <a class="btn btn-primary" asp-action="Create">
+            <i class="bi bi-plus-lg"></i> Nouveau livre
+        </a>
+    }
 </div>
-<form method="get" asp-action="Index" class="mb-3">
-    <input type="text" name="searchString" placeholder="Search by title or author" class="form-control" />
-    <button type="submit" class="btn btn-primary mt-2">Search</button>
-</form>
+
+<!-- Search Form -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-3">
+        <form method="get" asp-action="Index" class="row g-2 align-items-center">
+            <div class="col-md-9 col-sm-8">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                    <input type="text" name="searchString" placeholder="Rechercher par titre ou auteur..." class="form-control border-start-0" value="@Context.Request.Query["searchString"]" />
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-4 d-grid">
+                <button type="submit" class="btn btn-primary">
+                    Rechercher
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Books Grid / Table -->
 <div class="card border-0 shadow-sm">
     <div class="card-body p-0">
         @if (Model.Count == 0)
         {
             <div class="text-center py-5 text-muted">
-                <p style="font-size:2rem;">📚</p>
-                <p>Aucun livre enregistré pour le moment.</p>
-                <a asp-action="Create" class="btn btn-primary mt-2">Ajouter le premier livre</a>
+                <i class="bi bi-book fs-1 d-block mb-3 opacity-50 text-muted"></i>
+                <p class="mb-0">Aucun livre enregistré ou correspondant à votre recherche.</p>
+                <a asp-action="Create" class="btn btn-primary mt-3">Ajouter un livre</a>
             </div>
         }
         else
         {
-            <table class="table-modern">
-                <thead>
-                    <tr>
-                        <th>Titre</th>
-                        <th>Auteur</th>
-                        <th>Catégorie</th>
-                        <th>Prix</th>
-                        <th>Stock</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var book in Model)
-                    {
+            <div class="table-modern-wrapper border-0 shadow-none">
+                <table class="table-modern">
+                    <thead>
                         <tr>
-                            <td><strong>@book.Title</strong></td>
-                            <td>@book.Author</td>
-                            <td>
-                                @if (book.Category != null)
-                                {
-                                    <span class="badge-available">@book.Category.Name</span>
-                                }
-                                else
-                                {
-                                    <span style="color:#94a3b8;font-size:.8rem;">—</span>
-                                }
-                            </td>
-                            <td>@book.Price.ToString("F2") MAD</td>
-                            <td>
-                                @if (book.StockQuantity > 0)
-                                {
-                                    <span class="badge-available">@book.StockQuantity dispo</span>
-                                }
-                                else
-                                {
-                                    <span class="badge-borrowed">Épuisé</span>
-                                }
-                            </td>
-                            <td>
-                                <a asp-action="Edit"    asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary me-1">Modifier</a>
-                                <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary me-1">Détails</a>
-                                <a asp-action="Delete"  asp-route-id="@book.Id" class="btn btn-sm btn-outline-danger">Suppr.</a>
-                            </td>
+                            <th>Titre</th>
+                            <th>Auteur</th>
+                            <th>Catégorie</th>
+                            <th>Prix</th>
+                            <th>Stock</th>
+                            <th class="text-end">Actions</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var book in Model)
+                        {
+                            <tr>
+                                <td><strong>@book.Title</strong></td>
+                                <td>@book.Author</td>
+                                <td>
+                                    @if (book.Category != null)
+                                    {
+                                        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-pill">
+                                            @book.Category.Name
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small">—</span>
+                                    }
+                                </td>
+                                <td>
+                                    <span class="fw-semibold text-dark">@book.Price.ToString("F2") MAD</span>
+                                </td>
+                                <td>
+                                    @if (book.StockQuantity > 0)
+                                    {
+                                        <span class="badge-available">
+                                            <i class="bi bi-check-lg"></i> @book.StockQuantity disponibles
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-borrowed">
+                                            <i class="bi bi-x-circle"></i> Épuisé
+                                        </span>
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    <div class="d-inline-flex gap-1">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary">
+                                                <i class="bi bi-pencil"></i> Modifier
+                                            </a>
+                                        }
+                                        <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-sm btn-outline-secondary">
+                                            <i class="bi bi-eye"></i> Détails
+                                        </a>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a asp-action="Delete" asp-route-id="@book.Id" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i> Suppr.
+                                            </a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         }
     </div>
 </div>
-

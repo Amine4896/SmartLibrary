@@ -20,6 +20,11 @@ public class BookService
             .ToListAsync();
     }
 
+    public async Task<List<Book>> GetAllBooks()
+    {
+        return await _context.Books.ToListAsync();
+    }
+
     public async Task<List<Book>> SearchBooks(string keyword)
     {
         return await _context.Books

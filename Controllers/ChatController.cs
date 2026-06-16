@@ -25,4 +25,21 @@ public class ChatController : Controller
 
         return View("Index", model);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> AskJson([FromBody] ChatRequest request)
+    {
+        if (request == null || string.IsNullOrWhiteSpace(request.Question))
+        {
+            return Json(new { response = "Veuillez poser une question." });
+        }
+
+        var response = await _assistant.AskAsync(request.Question);
+        return Json(new { response });
+    }
+}
+
+public class ChatRequest
+{
+    public string Question { get; set; } = string.Empty;
 }

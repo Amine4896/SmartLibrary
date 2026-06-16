@@ -1,0 +1,42 @@
+@model SmartLibrary.Models.User
+
+@{
+    ViewData["Title"] = "Modifier le compte Manager";
+}
+
+<div class="page-header mt-3">
+    <div>
+        <h1>Modifier le compte Manager</h1>
+        <p>Mettre à jour les informations du Manager "@Model.Username"</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Retour à la liste
+    </a>
+</div>
+
+<div class="form-card">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-3" role="alert"></div>
+
+        <div class="mb-3">
+            <label class="form-label" for="username">Nom d'utilisateur</label>
+            <input type="text" name="username" id="username" class="form-control" value="@Model.Username" required />
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label" for="newPassword">Nouveau mot de passe (optionnel)</label>
+            <input type="password" name="newPassword" id="newPassword" class="form-control" placeholder="Laisser vide pour ne pas changer" />
+            <span class="text-muted small">Remplissez ce champ uniquement si vous souhaitez modifier le mot de passe actuel.</span>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check-lg"></i> Enregistrer
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
