@@ -1,3 +1,4 @@
+// Test webhook trigger - automatic build validation
 pipeline {
     agent any
 
