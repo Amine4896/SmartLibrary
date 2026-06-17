@@ -51,14 +51,27 @@ pipeline {
                 sh 'dotnet publish --configuration Release --output ./publish'
             }
         }
+        stage('Deploy') {
+            steps {
+                echo 'Construction de l\'image Docker...'
+                sh 'docker build -t smartlibrary:latest .'
+
+                echo 'Arrêt de l\'ancien conteneur de production...'
+                sh 'docker stop smartlibrary_container || true'
+                sh 'docker rm smartlibrary_container || true'
+
+                echo 'Déploiement du nouveau conteneur...'
+                sh 'docker run -d -p 8080:8080 --name smartlibrary_container smartlibrary:latest'
+            }
+        }
     }
 
     post {
         success {
-            echo '✅ Build, tests et analyse SonarQube réussis avec succès !'
+            echo '✅ Build, tests, analyse SonarQube et Déploiement réussis avec succès !'
         }
         failure {
-            echo '❌ Échec du build, des tests ou de l\'analyse.'
+            echo '❌ Échec du build, des tests, de l\'analyse ou du déploiement.'
         }
     }
 }
