@@ -8,6 +8,12 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Clean') {
+            steps {
+                echo 'Nettoyage des anciens fichiers de publication...'
+                sh 'rm -rf publish'
+            }
+        }
         stage('Restore') {
             steps {
                 echo 'Restauration des packages NuGet...'
