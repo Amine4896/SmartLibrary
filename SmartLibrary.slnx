@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SmartLibrary.csproj" />
+  <Project Path="SmartLibrary.Tests/SmartLibrary.Tests.csproj" />
+</Solution>

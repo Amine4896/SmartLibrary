@@ -16,4 +16,11 @@
     <PackageReference Include="System.Text.Json" Version="10.0.8" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="SmartLibrary.Tests\**" />
+    <Content Remove="SmartLibrary.Tests\**" />
+    <EmbeddedResource Remove="SmartLibrary.Tests\**" />
+    <None Remove="SmartLibrary.Tests\**" />
+  </ItemGroup>
+
 </Project>
