@@ -1,4 +1,4 @@
-// Test webhook trigger - automatic build validation
+// Test webhook trigger - automatic build validation v2
 pipeline {
     agent any
 
