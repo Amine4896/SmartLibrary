@@ -61,7 +61,7 @@ pipeline {
                 sh 'docker rm smartlibrary_container || true'
 
                 echo 'Déploiement du nouveau conteneur...'
-                sh 'docker run -d -p 8080:8080 --name smartlibrary_container smartlibrary:latest'
+                sh 'docker run -d -p 8080:8080 --name smartlibrary_container --network campushub_ehtp_campushub_net -e ConnectionStrings__DefaultConnection="Server=db;Database=SmartLibraryDB;User Id=sa;Password=YourStrong@Password2026!;TrustServerCertificate=True" smartlibrary:latest'
             }
         }
     }
