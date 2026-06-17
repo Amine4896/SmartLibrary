@@ -4,6 +4,7 @@ pipeline {
     environment {
         // Le token de connexion sera lu à partir des identifiants Jenkins
         SONAR_TOKEN = credentials('sonar-token')
+        DOTNET_ROOT = '/usr/local/dotnet'
     }
 
     stages {
