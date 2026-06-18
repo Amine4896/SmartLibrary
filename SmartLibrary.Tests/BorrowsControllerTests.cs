@@ -90,6 +90,7 @@ namespace SmartLibrary.Tests
 
             // Client demands are "Pending", so stock is NOT decremented yet (until approved)
             var updatedBook = await context.Books.FindAsync(book.Id);
+            Assert.NotNull(updatedBook);
             Assert.Equal(5, updatedBook.StockQuantity);
 
             var borrow = await context.Borrows.FirstOrDefaultAsync();
@@ -169,11 +170,13 @@ namespace SmartLibrary.Tests
             Assert.Equal("Index", redirectResult.ActionName);
 
             var updatedBorrow = await context.Borrows.FindAsync(borrow.Id);
+            Assert.NotNull(updatedBorrow);
             Assert.Equal("Returned", updatedBorrow.Status);
             Assert.NotNull(updatedBorrow.ReturnDate);
 
             // Stock should be incremented (4 -> 5)
             var updatedBook = await context.Books.FindAsync(book.Id);
+            Assert.NotNull(updatedBook);
             Assert.Equal(5, updatedBook.StockQuantity);
         }
     }
