@@ -30,7 +30,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Exécution des tests unitaires (xUnit)
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --configuration Release --no-build --verbosity normal
 
   # 2. Construction et Publication de l'image Docker
   docker-build-push:
