@@ -5,7 +5,7 @@ on:
     branches: [ "feature/devops-docker", "main" ]
 
 env:
-  AZURE_RESOURCE_GROUP: 'SmartLibrary-RG'
+  AZURE_RESOURCE_GROUP: 'SmartLibrary-Prod-RG'
   AZURE_APP_NAME: 'smartlibrary-ehtp-demo' // Remplacez par un nom unique si nécessaire
   AZURE_LOCATION: 'francecentral'
   DOCKER_IMAGE_NAME: '${{ secrets.DOCKER_USERNAME }}/smartlibrary'
