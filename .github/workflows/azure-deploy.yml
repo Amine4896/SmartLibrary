@@ -1,0 +1,88 @@
+name: Build, Publish and Deploy to Azure
+
+on:
+  push:
+    branches: [ "feature/devops-docker", "main" ]
+
+env:
+  AZURE_RESOURCE_GROUP: 'SmartLibrary-RG'
+  AZURE_APP_NAME: 'smartlibrary-ehtp-demo' // Remplacez par un nom unique si nécessaire
+  AZURE_LOCATION: 'westeurope'
+  DOCKER_IMAGE_NAME: '${{ secrets.DOCKER_USERNAME }}/smartlibrary'
+
+jobs:
+  # 1. Compilation et Tests Unitaires
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v3
+
+      - name: Configuration de .NET 10
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restauration des packages NuGet
+        run: dotnet restore
+
+      - name: Compilation de l'application
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Exécution des tests unitaires (xUnit)
+        run: dotnet test --no-build --verbosity normal
+
+  # 2. Construction et Publication de l'image Docker
+  docker-build-push:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v3
+
+      - name: Connexion à Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build et Push de l'image sur Docker Hub
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.DOCKER_IMAGE_NAME }}:latest
+            ${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
+
+  # 3. Provisionnement et Déploiement Cloud sur Azure
+  azure-provision-deploy:
+    needs: docker-build-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v3
+
+      - name: Connexion à Microsoft Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Création du Groupe de Ressources Azure
+        run: |
+          az group create --name ${{ env.AZURE_RESOURCE_GROUP }} --location ${{ env.AZURE_LOCATION }}
+
+      - name: Déploiement de l'Infrastructure as Code (Bicep)
+        uses: azure/arm-deploy@v1
+        with:
+          resourceGroupName: ${{ env.AZURE_RESOURCE_GROUP }}
+          template: ./infra/main.bicep
+          parameters: >
+            appName=${{ env.AZURE_APP_NAME }}
+            location=${{ env.AZURE_LOCATION }}
+            dockerImage=${{ env.DOCKER_IMAGE_NAME }}:latest
+            sqlAdminPassword=${{ secrets.AZURE_SQL_ADMIN_PASSWORD }}
+
+      - name: Redémarrage de l'App Service pour forcer la mise à jour du conteneur
+        run: |
+          az webapp restart --name ${{ env.AZURE_APP_NAME }} --resource-group ${{ env.AZURE_RESOURCE_GROUP }}
