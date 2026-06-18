@@ -6,7 +6,7 @@ on:
 
 env:
   AZURE_RESOURCE_GROUP: 'SmartLibrary-Prod-RG'
-  AZURE_APP_NAME: 'smartlibrary-ehtp-demo' // Remplacez par un nom unique si nécessaire
+  AZURE_APP_NAME: 'smartlibrary-ehtp-demo'
   AZURE_LOCATION: 'francecentral'
   DOCKER_IMAGE_NAME: '${{ secrets.DOCKER_USERNAME }}/smartlibrary'
 
