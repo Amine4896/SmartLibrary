@@ -55,34 +55,14 @@ jobs:
             ${{ env.DOCKER_IMAGE_NAME }}:latest
             ${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
 
-  # 3. Provisionnement et Déploiement Cloud sur Azure
-  azure-provision-deploy:
+  # 3. Déploiement sur Azure Web App via Profil de Publication (Sans Service Principal)
+  azure-deploy:
     needs: docker-build-push
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout du code
-        uses: actions/checkout@v3
-
-      - name: Connexion à Microsoft Azure
-        uses: azure/login@v1
+      - name: Déploiement du conteneur sur Azure App Service
+        uses: azure/webapps-deploy@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Création du Groupe de Ressources Azure
-        run: |
-          az group create --name ${{ env.AZURE_RESOURCE_GROUP }} --location ${{ env.AZURE_LOCATION }}
-
-      - name: Déploiement de l'Infrastructure as Code (Bicep)
-        uses: azure/arm-deploy@v1
-        with:
-          resourceGroupName: ${{ env.AZURE_RESOURCE_GROUP }}
-          template: ./infra/main.bicep
-          parameters: >
-            appName=${{ env.AZURE_APP_NAME }}
-            location=${{ env.AZURE_LOCATION }}
-            dockerImage=${{ env.DOCKER_IMAGE_NAME }}:latest
-            sqlAdminPassword=${{ secrets.AZURE_SQL_ADMIN_PASSWORD }}
-
-      - name: Redémarrage de l'App Service pour forcer la mise à jour du conteneur
-        run: |
-          az webapp restart --name ${{ env.AZURE_APP_NAME }} --resource-group ${{ env.AZURE_RESOURCE_GROUP }}
+          app-name: ${{ env.AZURE_APP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          images: 'docker.io/${{ env.DOCKER_IMAGE_NAME }}:latest'
