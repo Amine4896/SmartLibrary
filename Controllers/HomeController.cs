@@ -19,6 +19,7 @@ public class HomeController : Controller
         _appLifetime = appLifetime;
     }
 
+    // Trigger Jenkins & SonarQube validation pipeline
     public async Task<IActionResult> Index()
     {
         var username = User.Identity?.Name;
