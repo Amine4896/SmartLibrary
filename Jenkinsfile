@@ -33,7 +33,7 @@ pipeline {
                 sh 'dotnet tool install --tool-path ./tools dotnet-sonarscanner --ignore-failed-sources || true'
 
                 echo 'Début de l\'analyse SonarQube...'
-                sh './tools/dotnet-sonarscanner begin /k:"SmartLibrary" /d:sonar.host.url="http://sonarqube:9000" /d:sonar.token="${SONAR_TOKEN}"'
+                sh './tools/dotnet-sonarscanner begin /k:"SmartLibrary" /d:sonar.host.url="http://sonarqube:9000" /d:sonar.token="${SONAR_TOKEN}" /d:sonar.exclusions="wwwroot/lib/**/*"'
 
                 echo 'Compilation du projet...'
                 sh 'dotnet build --configuration Release --no-restore'
